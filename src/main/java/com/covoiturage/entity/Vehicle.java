@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,7 +33,7 @@ public class Vehicle {
     private String licensePlate;
 
 
-    @NotBlank(message = "la capacite est oblig")
+    @NotNull(message = "la capacite est oblig")
     @Min(value = 1, message = "la capacite mini est de 1 ")
     @Max(value = 8, message = "la capacite max est de 8 ")
     @Column(nullable = false)

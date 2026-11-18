@@ -37,6 +37,26 @@ public class PassengerServiceImpl implements PassengerService {
         return passengerMapper.toResponse(passengerRepository.save(passenger));
     }
 
+    public PassengerResponse updatePassenger(Long id, PassengerRequest req) {
+
+        log.info("mise a jour du passager avec id : {} ", id);
+        Passenger existingPassenger = passengerRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("passager intrv avec id : " + id)
+                );
+
+        if (passengerRepository.existsByEmail(req.email()) && !existingPassenger.getEmail().equals(req.email())) {
+            throw new BusinessException("cet email est deja utilise par un autre passager");
+        }
+
+        passengerMapper.updateEntityFromRequest(req, existingPassenger);
+
+        Passenger updatedPass = passengerRepository.save(existingPassenger);
+
+        return passengerMapper.toResponse(updatedPass);
+
+    }
+
     @Override
     @Transactional(readOnly = true)
     public PassengerResponse getPassengerById(Long id) {

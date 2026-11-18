@@ -16,6 +16,8 @@ public record VehicleRequest(
         String licensePlate,
 
         @NotNull(message = "la capacite est oblig")
+//        @Min(value = 1, message = "la capacite mini est de 1 ")
+//        @Max(value = 8, message = "la capacite max est de 8 ")
         Integer capacity,
 
         @NotNull(message = "le conducteur est oblig")

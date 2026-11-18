@@ -14,7 +14,6 @@ public record TripResponse(
         Integer availableSeats,
         StatutTrajet status,
         Long vehicleId,
-        String vehicleBrand,
         List<StopResponse> stops
 ) {
 }

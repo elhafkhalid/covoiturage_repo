@@ -7,6 +7,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", uses = {StopMapper.class})
 public interface TripMapper {
 
@@ -17,9 +19,10 @@ public interface TripMapper {
     Trip toEntity(TripRequest request);
 
     @Mapping(source = "vehicle.id", target = "vehicleId")
-    @Mapping(source = "vehicle.brand", target = "vehicleBrand")
     @Mapping(target = "availableSeats", ignore = true)
     TripResponse toResponse(Trip trip);
+
+    List<TripResponse> toResponseList(List<Trip> trips);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "vehicle", ignore = true)

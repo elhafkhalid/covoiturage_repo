@@ -7,6 +7,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface VehicleMapper {
 
@@ -15,9 +17,9 @@ public interface VehicleMapper {
     Vehicle toEntity(VehicleRequest request);
 
     @Mapping(source = "driver.id", target = "driverId")
-    @Mapping(source = "driver.nom", target = "driverNom")
-    @Mapping(source = "driver.prenom", target = "driverPrenom")
     VehicleResponse toResponse(Vehicle vehicle);
+
+    List<VehicleResponse> toResponseList(List<Vehicle> vehicles);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "driver", ignore = true)
