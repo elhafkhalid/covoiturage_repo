@@ -41,7 +41,7 @@ public class TripServiceImpl implements TripService {
         Vehicle vehicle = getVehicle(request.vehicleId());
         validateCapacity(request.proposedSeats(), vehicle.getCapacity());
         List<StopRequest> sortedStops = sortStopsByOrder(request.stops());
-        validateStops(sortedStops, request.departureCity(), request.arrivalCity());
+        validateStops(sortedStops, request);
 
         Trip savedTrip = buildAndSaveTrip(request, vehicle, sortedStops);
 
@@ -64,10 +64,11 @@ public class TripServiceImpl implements TripService {
                 .toList();
     }
 
-    private void validateStops(List<StopRequest> sortedStops, String departureCity, String arrivalCity) {
-        validateCities(sortedStops, departureCity, arrivalCity);
+    private void validateStops(List<StopRequest> sortedStops, TripRequest req) {
+        validateCities(sortedStops, req.departureCity(), req.arrivalCity());
         validateUniqueCities(sortedStops);
         validatePrices(sortedStops);
+        validateDepartureDateMatchesFirstStop(sortedStops, req);
         //validateTimes(sortedStops);
     }
 
@@ -109,6 +110,14 @@ public class TripServiceImpl implements TripService {
             previousPrice = stop.priceFromStart();
 
         }
+    }
+
+    private void validateDepartureDateMatchesFirstStop(List<StopRequest> sortedStops, TripRequest req) {
+
+        StopRequest firstStop = sortedStops.get(0);
+        if (!firstStop.arrivalTime().equals(req.departureCity()))
+            throw new BusinessException("date de depart doit etre egal date de premier arret");
+
     }
 
     private Trip buildAndSaveTrip(TripRequest req, Vehicle vehicle, List<StopRequest> sortedStops) {

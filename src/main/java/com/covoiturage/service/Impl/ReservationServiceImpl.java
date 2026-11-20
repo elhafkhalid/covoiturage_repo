@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -96,7 +97,10 @@ public class ReservationServiceImpl implements ReservationService {
 
         if (reservation.getStatus().equals(StatutReservation.CONFIRMEE)) {
             validationDeadline(reservation.getTrip());
+            reservation.setStatus(StatutReservation.ANNULLE);
+            reservationRepository.save(reservation);
 
+            updateTripStatusAfterCancel(reservation.getTrip());
         }
 
     }
@@ -174,6 +178,26 @@ public class ReservationServiceImpl implements ReservationService {
                 .orElseThrow(() -> new ResourceNotFoundException("reservation intrv avec id : " + id));
     }
 
+    private void validationDeadline(Trip trip) {
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime departureDate = trip.getDepartureDate();
+
+        long hoursUntilDeparture = Duration.between(now, departureDate).toHours();
+
+        if (hoursUntilDeparture < 24)
+            throw new BusinessException("impossible anuule il faut le depart que dans moins de 24h");
+
+    }
+
+    private void updateTripStatusAfterCancel(Trip trip) {
+        if (trip.getStatus().equals(StatutTrajet.COMPLET)) {
+            trip.setStatus(StatutTrajet.PUBLIE);
+            tripRepository.save(trip);
+        }
+
+
+    }
 
 
 }

@@ -34,4 +34,10 @@ public class ReservationController {
     public List<ReservationResponse> getPassengerReservations(@PathVariable Long passengerId) {
         return reservationService.getPassengerReservations(passengerId);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void cancelReservation(@PathVariable Long id) {
+        reservationService.cancelReservation(id);
+    }
 }
