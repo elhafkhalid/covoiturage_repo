@@ -2,7 +2,6 @@ package com.covoiturage.dto.request;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-
 import java.time.LocalDateTime;
 import java.util.List;
 

@@ -1,5 +1,6 @@
 package com.covoiturage.entity;
 
+import com.covoiturage.enums.StatutReservation;
 import com.covoiturage.enums.StatutTrajet;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -48,4 +49,15 @@ public class Trip {
     @OrderBy("stopOrder ASC")
     private List<Stop> stops = new ArrayList<>();
 
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
+    private List<Reservation> reservations = new ArrayList<>();
+
+    public int getAvailableSeats() {
+        if (reservations == null) return proposedSeats;
+        int reserved = reservations.stream()
+                .filter(r -> r.getStatus() == StatutReservation.CONFIRMEE)
+                .mapToInt(Reservation::getNumberOfSeats)
+                .sum();
+        return proposedSeats - reserved;
+    }
 }

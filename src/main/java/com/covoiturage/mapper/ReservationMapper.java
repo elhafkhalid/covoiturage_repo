@@ -22,7 +22,6 @@ public interface ReservationMapper {
     Reservation toEntity(ReservationRequest request);
 
     @Mapping(source = "passenger.id", target = "passengerId")
-    @Mapping(source = "passenger.nom", target = "passengerNom")
     @Mapping(source = "trip.id", target = "tripId")
     @Mapping(source = "pickupStop.city", target = "pickupCity")
     @Mapping(source = "dropoffStop.city", target = "dropoffCity")

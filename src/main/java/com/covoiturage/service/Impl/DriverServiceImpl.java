@@ -1,4 +1,4 @@
-package com.covoiturage.service.impl;
+package com.covoiturage.service.Impl;
 
 import com.covoiturage.dto.request.DriverRequest;
 import com.covoiturage.dto.response.DriverResponse;

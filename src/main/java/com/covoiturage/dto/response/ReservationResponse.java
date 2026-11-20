@@ -12,7 +12,6 @@ public record ReservationResponse(
         StatutReservation status,
         BigDecimal totalPrice,
         Long passengerId,
-        String passengerNom,
         Long tripId,
         String pickupCity,
         String dropoffCity
