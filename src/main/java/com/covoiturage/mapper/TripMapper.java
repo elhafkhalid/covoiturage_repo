@@ -24,10 +24,4 @@ public interface TripMapper {
 
     List<TripResponse> toResponseList(List<Trip> trips);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "vehicle", ignore = true)
-    @Mapping(target = "stops", ignore = true)
-    @Mapping(target = "status", ignore = true)
-    @Mapping(target = "reservations", ignore = true)
-    void updateEntityFromRequest(TripRequest request, @MappingTarget Trip trip);
 }

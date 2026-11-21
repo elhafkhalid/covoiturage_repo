@@ -36,7 +36,7 @@ public class TripServiceImpl implements TripService {
 
     public TripResponse createTrip(TripRequest request) {
 
-        log.info("Publication d'un trajet ");
+        log.info("publication d'1 trajet ");
 
         Vehicle vehicle = getVehicle(request.vehicleId());
         validateCapacity(request.proposedSeats(), vehicle.getCapacity());
@@ -115,7 +115,7 @@ public class TripServiceImpl implements TripService {
     private void validateDepartureDateMatchesFirstStop(List<StopRequest> sortedStops, TripRequest req) {
 
         StopRequest firstStop = sortedStops.get(0);
-        if (!firstStop.arrivalTime().equals(req.departureCity()))
+        if (!firstStop.arrivalTime().equals(req.departureDate()))
             throw new BusinessException("date de depart doit etre egal date de premier arret");
 
     }

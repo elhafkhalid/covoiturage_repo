@@ -67,6 +67,7 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setStatus(StatutReservation.CONFIRMEE);
         reservation.setReservationDate(LocalDateTime.now());
 
+        trip.getReservations().add(reservation);
         Reservation savedReservation = reservationRepository.save(reservation);
 
         updateTripStatus(trip);
@@ -162,6 +163,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     private void updateTripStatus(Trip trip) {
+
         int reserved = calculateReservedSeats(trip);
         int available = trip.getProposedSeats() - reserved;
 

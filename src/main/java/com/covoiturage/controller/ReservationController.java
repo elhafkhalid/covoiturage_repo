@@ -35,7 +35,7 @@ public class ReservationController {
         return reservationService.getPassengerReservations(passengerId);
     }
 
-    @DeleteMapping("/{id}")
+    @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void cancelReservation(@PathVariable Long id) {
         reservationService.cancelReservation(id);

@@ -12,6 +12,8 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface DriverMapper {
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "isActive", ignore = true)
     Driver toEntity(DriverRequest request);
 
     DriverResponse toResponse(Driver driver);
