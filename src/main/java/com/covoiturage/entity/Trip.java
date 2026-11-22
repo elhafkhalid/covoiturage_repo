@@ -54,6 +54,7 @@ public class Trip {
 
     public int getAvailableSeats() {
         if (reservations == null) return proposedSeats;
+
         int reserved = reservations.stream()
                 .filter(r -> r.getStatus() == StatutReservation.CONFIRMEE)
                 .mapToInt(Reservation::getNumberOfSeats)

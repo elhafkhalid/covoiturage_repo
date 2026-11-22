@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -47,6 +48,24 @@ public class TripServiceImpl implements TripService {
 
         return tripMapper.toResponse(savedTrip);
     }
+
+    public List<TripResponse> searchTrips(String departureCity, String arrivalCity,
+                                          LocalDate date, BigDecimal maxPrice, Integer places) {
+        List<Trip> trips;
+
+        if (date != null && maxPrice != null) {
+            trips = tripRepository.searchTripsWithFilters(departureCity, arrivalCity, date, maxPrice, StatutTrajet.PUBLIE);
+        } else {
+            trips = tripRepository.searchTrips(departureCity, arrivalCity, StatutTrajet.PUBLIE);
+        }
+
+        return trips.stream()
+                .filter(t -> t.getAvailableSeats() >= places)
+                .map(tripMapper::toResponse)
+                .toList();
+    }
+
+    //METHODS PRIVE POUR CREATETRIP
 
     private Vehicle getVehicle(Long vehicleId) {
         return vehicleRepository.findById(vehicleId)
